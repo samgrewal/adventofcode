@@ -15,9 +15,9 @@ func main() {
 	}
 	defer input.Close()
 	scores := [][]int{
-		{4, 8, 3},
+		{3, 4, 8},
 		{1, 5, 9},
-		{7, 2, 6},
+		{2, 6, 7},
 	}
 	total := 0
 	scanner := bufio.NewScanner(input)
