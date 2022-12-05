@@ -7,6 +7,18 @@ import (
 	"strconv"
 )
 
+func InsertTop3(e int, t *[]int) {
+	for i := len(*t) - 1; i >= 0; i-- {
+		if e > (*t)[i] {
+			for j := 0; j < i; j++ {
+				(*t)[j] = (*t)[j+1]
+			}
+			(*t)[i] = e
+			break
+		}
+	}
+}
+
 func main() {
 	input, err := os.Open("../input.txt")
 	if err != nil {
@@ -14,12 +26,13 @@ func main() {
 	}
 	defer input.Close()
 
-	max := 0
+	top3 := []int{0, 0, 0}
 	cur := 0
 	scanner := bufio.NewScanner(input)
 	for scanner.Scan() {
 		t := scanner.Text()
 		if len(t) == 0 {
+			InsertTop3(cur, &top3)
 			cur = 0
 			continue
 		}
@@ -28,14 +41,12 @@ func main() {
 			log.Fatal(err)
 		}
 		cur += n
-		if cur > max {
-			max = cur
-		}
 	}
-	for scanner.Err() != nil {
-		log.Fatal(scanner.Err())
-	}
+	InsertTop3(cur, &top3)
 
-	println(strconv.Itoa(max))
+	total := 0
+	for _, v := range top3 {
+		total += v
+	}
+	println(strconv.Itoa(total))
 }
-
